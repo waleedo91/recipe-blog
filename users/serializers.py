@@ -7,13 +7,17 @@ from django.utils.translation import gettext as _
 
 from .models import User
 
+from recipe.serializers import RecipeSerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
 
+    recipes = RecipeSerializer(many=True, read_only=True)
+
     class Meta:
         model = get_user_model()
-        fields = ['email', 'password', 'first_name',
-                  'last_name', 'about', 'age']
+        fields = ['email', 'password', 'username', 'first_name',
+                  'last_name', 'about', 'age', 'recipes',]
         extra_kwargs = {'password': {'write_only': True, 'min_length': 8}}
 
     def create(self, validated_data):
@@ -28,6 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
