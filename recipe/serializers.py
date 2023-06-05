@@ -8,7 +8,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ['id', 'title', 'author',
-                  'description', 'prep_time', 'cook_time']
+                  'description', 'prep_time', 'cook_time', 'image']
         read_only_field = ['id']
 
     def create(self, validated_data):
@@ -21,3 +21,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+class RecipeImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Recipe
+        fields = ['id', 'image']
+        read_only_fields = ['id']
+        extra_kwargs = {'image': {'required': True}}
