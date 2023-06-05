@@ -27,7 +27,19 @@ class RecipeViewSet(ModelViewSet):
 
         return self.serializer_class
 
-    # TODO: Create a upload image function to be able to add images. 
+    # TODO: Create a GET function to remove the get error from api.
+
+    @action(methods=['POST'], detail=True, url_path='upload-image')
+    def upload_image(self, request, pk=None):
+        recipe = self.get_object()
+        serializer = self.get_serializer(recipe, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
