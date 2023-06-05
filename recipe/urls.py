@@ -7,5 +7,5 @@ router = DefaultRouter()
 router.register('recipes', RecipeViewSet, basename='recipe')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(router.urls))
 ]

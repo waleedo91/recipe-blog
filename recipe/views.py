@@ -19,6 +19,7 @@ class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+
     def get_serializer_class(self):
         if self.action == 'list':
             return RecipeSerializer
@@ -27,10 +28,9 @@ class RecipeViewSet(ModelViewSet):
 
         return self.serializer_class
 
-    # TODO: Create a GET function to remove the get error from api.
-
     @action(methods=['POST'], detail=True, url_path='upload-image')
     def upload_image(self, request, pk=None):
+        self.http_method_names.append('GET')
         recipe = self.get_object()
         serializer = self.get_serializer(recipe, data=request.data)
 
